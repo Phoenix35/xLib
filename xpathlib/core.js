@@ -18,17 +18,17 @@ var xLib = {
 	getXPath: function(expr, type, nsResolver)
 	{
 		if(!arguments.length)
-			xLib.handleError("No argument were found");
+			xLib.handleAlert("No argument were found");
 		
 		if(typeof arguments[0] != "string")
-			xLib.handleError("First argument must be a string.");
+			xLib.handleAlert("First argument must be a string.");
 			
 		if(navigator.appName.indexOf("Microsoft") == 0)
 		{
 			xLib.handleAlert("Please use a suitable browser for XPath");
 			
 			// Microsoft's XPath implementation is failing.
-			throw true; // Will have to be removed when we find a way
+			xLib.handleError(true); // Will have to be removed when we find a way
 			xpe = new ActiveXObject("msxml2.DOMDOcument");
 			xpe.setProperty("SelectionLanguage", "XPath");
 		}
