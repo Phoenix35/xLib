@@ -1,18 +1,4 @@
 /* Authors: Phoenix35 & Obivous (Kapoeira) */
-     XPathResult = {};
-	XPathResult.ANY_TYPE = 0;
-	XPathResult.NUMBER_TYPE = 1;
-	XPathResult.STRING_TYPE = 2;
-	XPathResult.BOOLEAN_TYPE = 3;
-	XPathResult.UNORDERED_NODE_ITERATOR_TYPE = 4;
-	XPathResult.ORDERED_NODE_ITERATOR_TYPE = 5;
-	XPathResult.UNORDERED_SNAPSHOT_TYPE = 6;
-	XPathResult.ORDERED_SNAPSHOT_TYPE = 7;
-	XPathResult.ANY_UNORDERED_NODE_TYPE = 8;
-	XPathResult.FIRST_ORDERED_NODE_TYPE = 9;
-
-
-
 // new XPath(String XPath_Expression, [Number|Constant XPath Type], [Function XPath namespace]);
 
 var XPath = function (expr, type, nsResolver) {
