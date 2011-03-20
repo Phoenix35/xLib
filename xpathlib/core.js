@@ -27,7 +27,7 @@ var XPath = function (expr, type, nsResolver) {
      type = 0;                     // ANY_TYPE by default
  }
  
- if(nsResolver == undefined || typeof nsResolver !== "function") {
+ if(nsResolver === undefined || typeof nsResolver !== "function") {
      nsResolver = xpe.createNSResolver(document.ownerDocument == null ? document.documentElement : document.ownerDocument.documentElement);
  }
  xObj = xpe.evaluate(expr, document, null, type, null);
