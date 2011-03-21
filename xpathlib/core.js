@@ -15,10 +15,10 @@
 var xLib = {
 	/* Retrieve all nodes matching the filter.
 	 * Get the Nth you want by using the .nodes(offset) filter.
-	 * @param   expr			 String as XPath
-	 * @param   type			 Result type
-	 * @param   nsResolver	 	 Not yet implemented
-	 * @author 	Phoenix35
+	 * @param	expr			 String as XPath
+	 * @param	type			 Result type
+	 * @param	nsResolver	 	 Not yet implemented
+	 * @author	Phoenix35
 	 */
 	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
@@ -90,16 +90,16 @@ var xLib = {
 	
 	/* Generate xPath. This function is recursive and needs xLib.getIndex(node)
 	 * @param	node		The DOM Element from which you get the XPath
-	 * @param   depth   	Set it to 0 on first call, it's used to limit the research in iterations
-	 * @param 	maxDepth	Maximum iteration number
-	 * @param   aSentinel	If you don't know what it is, set it to null
-	 * @param 	aDefaultNS	Default Namespace Resolver. If you don't know, set it to document. This'll be used by kwds['showNS']
+	 * @param	depth   	Set it to 0 on first call, it's used to limit the research in iterations
+	 * @param	maxDepth	Maximum iteration number
+	 * @param	aSentinel	If you don't know what it is, set it to null
+	 * @param	aDefaultNS	Default Namespace Resolver. If you don't know, set it to document. This'll be used by kwds['showNS']
 	 * @param	kwds		Refer to that for setting it up :
 	 *							Setting						Default value			Description
-	 *                      	kwds['toLowercase']			true					Use to define if we want to put the xPath lowercase.		
-	 * 							kwds['showId']				true					Show ID of the element currently being looped through
+	 *							kwds['toLowercase']			true					Use to define if we want to put the xPath lowercase.		
+	 *							kwds['showId']				true					Show ID of the element currently being looped through
 	 *							kwds['showClass']			true					Show classes of the lement currently looped through
-	 * 							kwds['showNS']				false					Display current namespace resolver before tag name in XPath String.
+	 *							kwds['showNS']				false					Display current namespace resolver before tag name in XPath String.
 	 * @author	Cron / Kapoeira
 	 */
 	generateXPathForDomElement: function(node, depth, maxDepth, aSentinel, aDefaultNS, kwds)
@@ -181,8 +181,8 @@ var xLib = {
 	},
 	
 	/* Gets index of aNode (relative to other same-tag siblings)
-	 * @param 	aNode		DOMElement
-	 * @author	Cron / Kapoeira
+	 * @param		aNode		DOMElement
+	 * @author		Cron / Kapoeira
 	 */
 	getIndex: function(aNode){
 		var siblings = aNode.parentNode.childNodes;
