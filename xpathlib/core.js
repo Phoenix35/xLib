@@ -6,7 +6,7 @@
  * Accessing properties of xObj can be done with basic JS properties. However, we added a custom nodes(offset) property.
  * It simplifies and merge snpashotItem() and IterateNext().
  *
- * Example : xLib.getXPath("//html"); alert(xObj.nodes(0).innerHTML)
+ * Example : xLib.getXPath("//html").nodes(0).innerHTML)
  * This code is available on the demo page.
  */
 
