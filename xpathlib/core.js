@@ -14,17 +14,17 @@ var xLib = {
 	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
 		if(!arguments.length)
-			xLib.handleAlert("No argument were found");
+			this.handleAlert("No argument were found");
 		
 		if(typeof arguments[0] != "string")
-			xLib.handleAlert("First argument must be a string.");
+			this.handleAlert("First argument must be a string.");
 		
 		if(navigator.appName.indexOf("Microsoft") == 0)
 		{
-			xLib.handleAlert("Please use a suitable browser for XPath");
+			this.handleAlert("Please use a suitable browser for XPath");
 			
 			// Microsoft's XPath implementation is failing.
-			xLib.handleError(true); // Will have to be removed when we find a way
+			this.handleError(true); // Will have to be removed when we find a way
 			xpe = new ActiveXObject("msxml2.DOMDOcument");
 			xpe.setProperty("SelectionLanguage", "XPath");
 		}
@@ -79,7 +79,7 @@ var xLib = {
 		return xObj;
 	},
 	
-	/* Generate xPath. This function is recursive and needs xLib.getIndex(node)
+	/* Generate xPath. This function is recursive and needs this.getIndex(node)
 	 * @param	node		The DOM Element from which you get the XPath
 	 * @param	depth   	Set it to 0 on first call, it's used to limit the research in iterations
 	 * @param	maxDepth	Maximum iteration number
@@ -101,7 +101,7 @@ var xLib = {
 		if(node == aSentinel)
 			return ".";
 		if((node.parentNode) && (depth < maxDepth))
-			str += xLib.generateXPathForDomElement(node.parentNode, depth + 1, maxDepth, aSentinel, aDefaultNS, kwds);
+			str += this.generateXPathForDomElement(node.parentNode, depth + 1, maxDepth, aSentinel, aDefaultNS, kwds);
 		
 		switch (node.nodeType) 
 		{
@@ -123,7 +123,7 @@ var xLib = {
 				// Not identified by id?
 				if (!hasId)
 				{
-					var index = xLib.getIndex(node);
+					var index = this.getIndex(node);
 					// Has it more than one sibling?
 					if (index) 
 					{
@@ -165,7 +165,7 @@ var xLib = {
 			case 3: // Text node
 			{
 				str += '/text()';
-				var index = xLib.getIndex(node);
+				var index = this.getIndex(node);
 				if (index) str += "[" + index + "]";
 				break;
 			}

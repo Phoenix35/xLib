@@ -30,7 +30,7 @@
 	
 	<fieldset>
 		<legend>Demonstration of <span class="method">xLib.getNodesMatchingXPath()</span> conjoncted with .nodes() methods</legend>
-		<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Get the <html> tag's HTML content !" />
+		<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//fieldset').nodes(1).innerHTML);" value="Get the second <fieldset> tag's HTML content !" />
 	</fieldset>
 	
 	<fieldset>
@@ -42,11 +42,11 @@
 	<fieldset>
 		<legend>Demonstrations of <span class="method">xLib.generateXPathForDomElement()</span> method</legend>
 		<input type="button" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have no ID, nor any class)" />
-		<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID, but one class)" />
+		<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID, but no class)" />
 		<input type="button" id="example-2" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and one class)" />
 		<input type="button" id="example-3" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and two classes)" />
 		<br />
-		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('div'); var newtext=document.createTextNode('Label div :'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(newtext); newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications)
+		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('div'); var newtext=document.createTextNode('Label div :'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(newtext); newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
 	</fieldset>
 	
 	<fieldset>
