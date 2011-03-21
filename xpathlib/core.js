@@ -1,15 +1,6 @@
-/* Authors: Phoenix35 & Obivous (Kapoeira) */
-
-/* Quick introduction
- * -----------------------------------------
- * First off, you need to understand that getXPath is bound to the xLib object. When getXPath is used, it creates another object, called xObj. 
- * Accessing properties of xObj can be done with basic JS properties. However, we added a custom nodes(offset) property.
- * It simplifies and merge snpashotItem() and IterateNext().
- *
- * Example : xLib.getNodesMatchingXPath("//html").nodes(0).innerHTML)
- * This code is available on the demo page.
- * 
- * We're getting on some serious stuff, we need a real README aswell.
+/* xLib		Make JavaScript Simplier 
+ * Authors: Phoenix35 & Cron (Kapoeira)
+ * Version: 0.5.0
  */
 
 var xLib = {
@@ -23,10 +14,10 @@ var xLib = {
 	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
 		if(!arguments.length)
-		xLib.handleAlert("No argument were found");
+			xLib.handleAlert("No argument were found");
 		
 		if(typeof arguments[0] != "string")
-		xLib.handleAlert("First argument must be a string.");
+			xLib.handleAlert("First argument must be a string.");
 		
 		if(navigator.appName.indexOf("Microsoft") == 0)
 		{
@@ -38,21 +29,21 @@ var xLib = {
 			xpe.setProperty("SelectionLanguage", "XPath");
 		}
 		else
-		xpe = new XPathEvaluator(); // Implemented in anything except IE
+			xpe = new XPathEvaluator(); // Implemented in anything except IE
 		
 		// Handling type argument
 		if(type === undefined || isNaN(type))
-		type = 0; // ANY_TYPE by default
+			type = 0; // ANY_TYPE by default
 		
 		// Handling nsResolver
 		if(nsResolver === undefined || typeof nsResolver !== "function")
-		nsResolver = xpe.createNSResolver(document.ownerDocument == null ? document.documentElement : document.ownerDocument.documentElement);
+			nsResolver = xpe.createNSResolver(document.ownerDocument == null ? document.documentElement : document.ownerDocument.documentElement);
 		
 		// Executing
 		xObj = xpe.evaluate(expr, document, null, type, null); // Have to use nsResolver. Not now, got to enhance it.
 		
 		if (type === 0)
-		type = xObj.resultType;
+			type = xObj.resultType;
 		
 		switch (type)
 		{
@@ -119,8 +110,10 @@ var xLib = {
 				var nname = node.localName;
 				var conditions = [];
 				var hasId = false;
+				
 				if (kwds['showClass'] && node.hasAttribute('class')) 
-				conditions.push("@class='" + node.getAttribute('class') + "'");
+					conditions.push("@class='" + node.getAttribute('class') + "'");
+				
 				if (kwds['showId'] && node.hasAttribute('id')) 
 				{
 					conditions.push("@id='" + node.getAttribute('id') + "'");
@@ -128,28 +121,30 @@ var xLib = {
 				}
 				
 				// Not identified by id?
-				if(!hasId){
+				if (!hasId)
+				{
 					var index = xLib.getIndex(node);
 					// Has it more than one sibling?
 					if (index) 
 					{
 						// Are there other conditions?
 						if (conditions.length > 0) 
-						conditions.push('position()='+index);
+							conditions.push('position()='+index);
 						else 
-						conditions.push(index);
+							conditions.push(index);
 					}
-					
 				}
+				
 				if (kwds['showNS']) // Should we display namespace resolver ?
 				{
 					if(node.prefix) 
-					nname = node.prefix + ":" + nname;
+						nname = node.prefix + ":" + nname;
 					else if (aDefaultNS) 
-					nname = "default:" + nname;
+						nname = "default:" + nname;
 				}
+				
 				if (kwds['toLowercase']) 
-				nname=nname.toLowerCase();
+					nname=nname.toLowerCase();
 				
 				str += "/" + nname;
 				
@@ -158,8 +153,7 @@ var xLib = {
 					str += "[";
 					for (var i = 0; i < conditions.length; i++)
 					{
-						if (i > 0) 
-						str += ' and ';
+						if (i > 0) str += ' and ';
 						str += conditions[i];
 					}
 					str += "]";
@@ -172,13 +166,11 @@ var xLib = {
 			{
 				str += '/text()';
 				var index = xLib.getIndex(node);
-				if (index)
-				str += "[" + index + "]";
+				if (index) str += "[" + index + "]";
 				break;
 			}
 		}
 		return str;
-		
 	},
 	
 	/* Gets index of aNode (relative to other same-tag siblings)
@@ -199,9 +191,9 @@ var xLib = {
 				if (node.nodeType == 1)
 				{
 					if (node.nodeName == name) 
-					allCount++;  //nodeName includes namespace
+						allCount++;  //nodeName includes namespace
 					if (node == aNode) 
-					position = allCount;
+						position = allCount;
 				}
 			}
 		}
@@ -214,11 +206,14 @@ var xLib = {
 				{
 					allCount++;
 					if (node == aNode) 
-					position = allCount;
+						position = allCount;
 				}
 			}
 		}
-		if (allCount > 1) return position;
+		
+		if (allCount > 1) 
+			return position;
+		
 		return null;
 	},
 	
