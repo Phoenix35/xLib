@@ -79,6 +79,8 @@ var xLib = {
 				}
 				break;
 		}
+		
+		return xObj;
 	},
 	
 	handleError: function(message)
