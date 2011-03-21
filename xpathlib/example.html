@@ -3,11 +3,38 @@
 <head>
 	<!-- Authors: Phoenix35 & Obivous (Kapoeira) -->
 	<title>Example for XPathLib</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <script type="text/javascript" src="core.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script type="text/javascript" src="core.js"></script>
+	<script type="text/javascript">
+		// Configuration for xLib.generateXPathForDomElement() method
+		var kwds = new Array();
+	    kwds['toLowercase'] = true;
+		kwds['showId'] = true;
+		kwds['showClass'] = true;
+		kwds['showNS'] = false;
+	</script>
 </head>
+
 <body>
-	<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Click me to alert the page's html source !" />
-	<input type="button" onclick="alert('This button\'s index is ' + xLib.siblingIndex(this));" value="Get my index (should be 2) !" />
+	<h1>xLib example page</h1>
+		
+	<h3>Basic stuff</h3>
+	<h4>Demonstration of xLib.getNodesMatchingXPath() conjucted with .nodes() methods</h4>
+	
+	<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Click me to alert the <html> tag's HTML content !" />
+	
+	<h4>Demonstration if xLib.getIndex() method</h4>
+	
+	<input type="button" onclick="alert('This button\'s index is ' + xLib.getIndex(this));" value="Get my index (should be 2) !" />
+	
+	<h3>Demonstrations of xLib.generateXPathForDomElement() method</h3>
+	
+	<input type="button" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have no ID, nor any class)" />
+	<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID, but one class)" />
+	<input type="button" id="example-1" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID and one class)" />
+	<input type="button" id="example-1" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID and two classes)" />
+	
+	<h6>© ® Cron AKA Kapoeira & Pheonix35
 </body>
+
 </html>
