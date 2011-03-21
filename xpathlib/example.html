@@ -7,6 +7,7 @@
     <script type="text/javascript" src="core.js"></script>
 </head>
 <body>
-	<input type="button" onclick="; alert(xLib.getXPath('//html').nodes(0).innerHTML)" value="Click me to alert the page's html source !">
+	<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Click me to alert the page's html source !" />
+	<input type="button" onclick="alert('This button\'s index is ' + xLib.siblingIndex(this));" value="Get my index (should be 2) !" />
 </body>
 </html>

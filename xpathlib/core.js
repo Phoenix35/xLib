@@ -6,16 +6,21 @@
  * Accessing properties of xObj can be done with basic JS properties. However, we added a custom nodes(offset) property.
  * It simplifies and merge snpashotItem() and IterateNext().
  *
- * Example : xLib.getXPath("//html").nodes(0).innerHTML)
+ * Example : xLib.getNodesMatchingXPath("//html").nodes(0).innerHTML)
  * This code is available on the demo page.
  */
-
 
 var xLib = {
 	xpe: null, // XPathEvaluator
 	xObj: null,
 	
-	getXPath: function(expr, type, nsResolver)
+	/* Retrieve all nodes matching the filter.
+	 * Get the Nth you want by using the .nodes(offset) filter.
+	 * @param   expr			 String as XPath
+	 * @param   type			 Result type
+	 * @param   nsResolver	 	 Not yet implemented
+	 */
+	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
 		if(!arguments.length)
 			xLib.handleAlert("No argument were found");
@@ -81,6 +86,57 @@ var xLib = {
 		}
 		
 		return xObj;
+	},
+	
+	/* Generate xPath for the node givenin the form of an array. You have to format it using .join("/").
+	 * TODO : IMPLEMENT NSRESOLVER
+	 * WARNING: This MAY be extremely slow
+	 * @param   subjectNode		 DOMElement
+	 * @param   path			 
+	 */
+	generateXPathForDomElement: function(subjectNode, path)
+	{
+		// Under rewriting
+	},
+	
+	/* Gets index of aNode (relative to other same-tag siblings)
+	 * @param aNode		DOMElement
+	 */
+	siblingIndex: function(aNode){
+		var siblings = aNode.parentNode.childNodes;
+		var allCount = 0;
+		var position;
+
+		if (aNode.nodeType==Node.ELEMENT_NODE)
+		{
+			var name = aNode.nodeName;
+			for (var i=0; i<siblings.length; i++)
+			{
+				var node = siblings.item(i);
+				if (node.nodeType == Node.ELEMENT_NODE)
+				{
+					if (node.nodeName == name) 
+						allCount++;  //nodeName includes namespace
+					if (node == aNode) 
+						position = allCount;
+				}
+			}
+		}
+		else if (aNode.nodeType==Node.TEXT_NODE)
+		{
+			for (var i=0; i<siblings.length; i++)
+			{
+				var node = siblings.item(i);
+				if (node.nodeType == Node.TEXT_NODE)
+				{
+					allCount++;
+					if (node == aNode) 
+						position = allCount;
+				}
+			}
+		}
+		if (allCount > 1) return position;
+		return null;
 	},
 	
 	handleError: function(message)
