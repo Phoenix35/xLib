@@ -23,11 +23,11 @@ var xLib = {
 	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
 		if(!arguments.length)
-			xLib.handleAlert("No argument were found");
+		xLib.handleAlert("No argument were found");
 		
 		if(typeof arguments[0] != "string")
-			xLib.handleAlert("First argument must be a string.");
-			
+		xLib.handleAlert("First argument must be a string.");
+		
 		if(navigator.appName.indexOf("Microsoft") == 0)
 		{
 			xLib.handleAlert("Please use a suitable browser for XPath");
@@ -38,22 +38,22 @@ var xLib = {
 			xpe.setProperty("SelectionLanguage", "XPath");
 		}
 		else
-			xpe = new XPathEvaluator(); // Implemented in anything except IE
-			
+		xpe = new XPathEvaluator(); // Implemented in anything except IE
+		
 		// Handling type argument
 		if(type === undefined || isNaN(type))
-			type = 0; // ANY_TYPE by default
-			
+		type = 0; // ANY_TYPE by default
+		
 		// Handling nsResolver
 		if(nsResolver === undefined || typeof nsResolver !== "function")
-			nsResolver = xpe.createNSResolver(document.ownerDocument == null ? document.documentElement : document.ownerDocument.documentElement);
-			
+		nsResolver = xpe.createNSResolver(document.ownerDocument == null ? document.documentElement : document.ownerDocument.documentElement);
+		
 		// Executing
 		xObj = xpe.evaluate(expr, document, null, type, null); // Have to use nsResolver. Not now, got to enhance it.
 		
 		if (type === 0)
-			type = xObj.resultType;
-			
+		type = xObj.resultType;
+		
 		switch (type)
 		{
 			// Define easy numeric cases
@@ -80,7 +80,7 @@ var xLib = {
 						return xObj.iterateNext();
 					}
 					else
-						return xObj.snapshotItem(offset);
+					return xObj.snapshotItem(offset);
 				}
 				break;
 		}
@@ -104,67 +104,68 @@ var xLib = {
 	 */
 	generateXPathForDomElement: function(node, depth, maxDepth, aSentinel, aDefaultNS, kwds)
 	{
-	    var str = "";
+		var str = "";
 		if(!node)
-     		return "";
+			return "";
 		if(node == aSentinel)
 			return ".";
 		if((node.parentNode) && (depth < maxDepth))
-		    str += xLib.generateXPathForDomElement(node.parentNode, depth + 1, maxDepth, aSentinel, aDefaultNS, kwds);
-    
-		switch (node.nodeType) {
+			str += xLib.generateXPathForDomElement(node.parentNode, depth + 1, maxDepth, aSentinel, aDefaultNS, kwds);
+		
+		switch (node.nodeType) 
+		{
 			case 1: // Element node
 			{
-                var nname = node.localName;
-                var conditions = [];
-                var hasId = false;
-                if (kwds['showClass'] && node.hasAttribute('class')) 
-					conditions.push("@class='" + node.getAttribute('class') + "'");
-                if (kwds['showId'] && node.hasAttribute('id')) 
+				var nname = node.localName;
+				var conditions = [];
+				var hasId = false;
+				if (kwds['showClass'] && node.hasAttribute('class')) 
+				conditions.push("@class='" + node.getAttribute('class') + "'");
+				if (kwds['showId'] && node.hasAttribute('id')) 
 				{
-                    conditions.push("@id='" + node.getAttribute('id') + "'");
-                    hasId = true;
-                }
-                    
-                // Not identified by id?
-                if(!hasId){
-                    var index = xLib.getIndex(node);
-                    // Has it more than one sibling?
-                    if (index) 
+					conditions.push("@id='" + node.getAttribute('id') + "'");
+					hasId = true;
+				}
+				
+				// Not identified by id?
+				if(!hasId){
+					var index = xLib.getIndex(node);
+					// Has it more than one sibling?
+					if (index) 
 					{
-                        // Are there other conditions?
-                        if (conditions.length > 0) 
-							conditions.push('position()='+index);
-                        else 
-							conditions.push(index);
-                    }
-    
-                }
-                if (kwds['showNS']) // Should we display namespace resolver ?
+						// Are there other conditions?
+						if (conditions.length > 0) 
+						conditions.push('position()='+index);
+						else 
+						conditions.push(index);
+					}
+					
+				}
+				if (kwds['showNS']) // Should we display namespace resolver ?
 				{
-                    if(node.prefix) 
-						nname = node.prefix + ":" + nname;
-                    else if (aDefaultNS) 
-						nname = "default:" + nname;
-                }
-                if (kwds['toLowercase']) 
-					nname=nname.toLowerCase();
-            
+					if(node.prefix) 
+					nname = node.prefix + ":" + nname;
+					else if (aDefaultNS) 
+					nname = "default:" + nname;
+				}
+				if (kwds['toLowercase']) 
+				nname=nname.toLowerCase();
+				
 				str += "/" + nname;
-                
-                if(conditions.length > 0) // Append conditions if there are more than one. They were stored in an array
+				
+				if(conditions.length > 0) // Append conditions if there are more than one. They were stored in an array
 				{ 
-                    str += "[";
-                    for (var i = 0; i < conditions.length; i++)
+					str += "[";
+					for (var i = 0; i < conditions.length; i++)
 					{
-                        if (i > 0) 
-							str += ' and ';
-                        str += conditions[i];
-                    }
-                    str += "]";
-                }
-                break;
-            }
+						if (i > 0) 
+						str += ' and ';
+						str += conditions[i];
+					}
+					str += "]";
+				}
+				break;
+			}
 			case 9: // Document node
 				break;
 			case 3: // Text node
@@ -172,12 +173,12 @@ var xLib = {
 				str += '/text()';
 				var index = xLib.getIndex(node);
 				if (index)
-					str += "[" + index + "]";
+				str += "[" + index + "]";
 				break;
 			}
 		}
 		return str;
-	
+		
 	},
 	
 	/* Gets index of aNode (relative to other same-tag siblings)
@@ -198,9 +199,9 @@ var xLib = {
 				if (node.nodeType == 1)
 				{
 					if (node.nodeName == name) 
-						allCount++;  //nodeName includes namespace
+					allCount++;  //nodeName includes namespace
 					if (node == aNode) 
-						position = allCount;
+					position = allCount;
 				}
 			}
 		}
@@ -213,7 +214,7 @@ var xLib = {
 				{
 					allCount++;
 					if (node == aNode) 
-						position = allCount;
+					position = allCount;
 				}
 			}
 		}
