@@ -13,28 +13,47 @@
 		kwds['showClass'] = true;
 		kwds['showNS'] = false;
 	</script>
+	<style type="text/css">
+	fieldset { border: 1px solid black; padding: 5px; margin-bottom: 20px; }
+	legend { border-bottom: 1px solid black; font-size: 13px; }
+	.method { font-family: monospace; font-size: 17px; padding-left: 5px; padding-right: 5px; }
+	fieldset * { margin-top: 15px; }
+	</style>
 </head>
 
 <body>
 	<h1>xLib example page</h1>
-		
-	<h3>Basic stuff</h3>
-	<h4>Demonstration of xLib.getNodesMatchingXPath() conjucted with .nodes() methods</h4>
 	
-	<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Click me to alert the <html> tag's HTML content !" />
+	<fieldset>
+		Click any of the buttons to see the effects of the methods of xLib. Tiny, but getting powerful ! =)
+	</fieldset>
 	
-	<h4>Demonstration if xLib.getIndex() method</h4>
+	<fieldset>
+		<legend>Demonstration of <span class="method">xLib.getNodesMatchingXPath()</span> conjoncted with .nodes() methods</legend>
+		<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//html').nodes(0).innerHTML);" value="Get the <html> tag's HTML content !" />
+	</fieldset>
 	
-	<input type="button" onclick="alert('This button\'s index is ' + xLib.getIndex(this));" value="Get my index (should be 2) !" />
+	<fieldset>
+		<legend>Demonstration if <span class="method">xLib.getIndex()</span> method</legend>
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be 2) !" />
+	</fieldset>
 	
-	<h3>Demonstrations of xLib.generateXPathForDomElement() method</h3>
+	<fieldset>
+		<legend>Demonstrations of <span class="method">xLib.generateXPathForDomElement()</span> method</legend>
+		<input type="button" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have no ID, nor any class)" />
+		<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID, but one class)" />
+		<input type="button" id="example-2" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and one class)" />
+		<input type="button" id="example-3" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and two classes)" />
+		<br />
+		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('div'); var newtext=document.createTextNode('Label div :'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(newtext); newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications)
+	</fieldset>
 	
-	<input type="button" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have no ID, nor any class)" />
-	<input type="button" id="example-1" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID, but one class)" />
-	<input type="button" id="example-1" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID and one class)" />
-	<input type="button" id="example-1" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my xPath (I have one ID and two classes)" />
+	<fieldset>
+		<legend>Check the XPath of buttons</legend>
+		<input type="text" id="checker" value="Enter XPath expression here" />
+		<input type="button" value="Alter the chosen button" onclick="xLib.getNodesMatchingXPath(document.getElementById('checker').value).nodes(0).value='This node has been altered !'" />
 	
-	<h6>© ® Cron AKA Kapoeira & Pheonix35
+	<h6>© ® Cron AKA Kapoeira & Pheonix35</h6>
 </body>
 
 </html>

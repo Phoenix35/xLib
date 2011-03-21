@@ -144,7 +144,7 @@ var xLib = {
 				}
 				
 				if (kwds['toLowercase']) 
-					nname=nname.toLowerCase();
+					nname = nname.toLowerCase();
 				
 				str += "/" + nname;
 				
