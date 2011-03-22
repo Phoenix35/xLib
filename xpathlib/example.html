@@ -35,8 +35,15 @@
 	
 	<fieldset>
 		<legend>Demonstration if <span class="method">xLib.getIndex()</span> method</legend>
-		This will return null if the node is alone (which is the case here).
-		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be null) !" />
+		This will return null if the node is alone in his parent (which is the case =>).
+		<span>
+			<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be null) !" />
+		</span>
+		<br />
+		This will not return null.
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be 1) !" /> 
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be 2) !" /> 
+		<input type="button" onclick="alert(xLib.getIndex(this));" value="Get my index (should be ... make a guess) !" />
 	</fieldset>
 	
 	<fieldset>
@@ -46,7 +53,7 @@
 		<input type="button" id="example-2" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and one class)" />
 		<input type="button" id="example-3" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and two classes)" />
 		<br />
-		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('div'); var newtext=document.createTextNode('Label div :'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(newtext); newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
+		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('span'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
 	</fieldset>
 	
 	<fieldset>

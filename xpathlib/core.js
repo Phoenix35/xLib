@@ -1,6 +1,7 @@
 /* xLib		Make JavaScript Simplier 
  * Authors: Phoenix35 & Cron (Kapoeira)
  * Version: 0.5.0
+ * All methods will return null under Microsoft's navigator, except handleError and handleAlert
  */
 
 var xLib = {
@@ -235,7 +236,6 @@ var xLib = {
 			this.handleAlert("XPath is not handled for HTML tree files");
 			return false;
 		}
-		
 		return true;
 	}
 };
