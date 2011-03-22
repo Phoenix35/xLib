@@ -13,23 +13,16 @@ var xLib = {
 	 */
 	getNodesMatchingXPath: function(expr, type, nsResolver)
 	{
+		if(!this.checkMicrosoft())
+			return null;
+	
 		if(!arguments.length)
 			this.handleAlert("No argument were found");
 		
 		if(typeof arguments[0] != "string")
 			this.handleAlert("First argument must be a string.");
 		
-		if(navigator.appName.indexOf("Microsoft") == 0)
-		{
-			this.handleAlert("Please use a suitable browser for XPath");
-			
-			// Microsoft's XPath implementation is failing.
-			this.handleError(true); // Will have to be removed when we find a way
-			xpe = new ActiveXObject("msxml2.DOMDOcument");
-			xpe.setProperty("SelectionLanguage", "XPath");
-		}
-		else
-			xpe = new XPathEvaluator(); // Implemented in anything except IE
+		xpe = new XPathEvaluator(); // Implemented in anything except IE
 		
 		// Handling type argument
 		if(type === undefined || isNaN(type))
@@ -95,6 +88,9 @@ var xLib = {
 	 */
 	generateXPathForDomElement: function(node, depth, maxDepth, aSentinel, aDefaultNS, kwds)
 	{
+		if(!this.checkMicrosoft())
+			return null;
+	
 		var str = "";
 		if(!node)
 			return "";
@@ -177,7 +173,11 @@ var xLib = {
 	 * @param		aNode		DOMElement
 	 * @author		Cron / Kapoeira
 	 */
-	getIndex: function(aNode){
+	getIndex: function(aNode)
+	{
+		if(!this.checkMicrosoft())
+			return null;
+			
 		var siblings = aNode.parentNode.childNodes;
 		var allCount = 0;
 		var position;
@@ -225,5 +225,17 @@ var xLib = {
 	handleAlert: function(message)
 	{
 		alert(message);
+	},
+	
+	checkMicrosoft: function()
+	{
+		// End if we are under IE.
+		if(/MSIE/.test(navigator.userAgent))
+		{
+			this.handleAlert("XPath is not handled for HTML tree files");
+			return false;
+		}
+		
+		return true;
 	}
 };
