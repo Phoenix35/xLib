@@ -1,6 +1,7 @@
 <html>
 <head>
 	<style type="text/css">
+	*{ margin: 0; padding: 0 }
 	input[type='text'] {
 		border: 1px solid grey;
 		padding: 2px;
@@ -15,6 +16,20 @@
 		display: block;
 		margin-left: 3px;
 		float: left;
+	}
+	
+	#preview
+	{
+		position: absolute;
+		color: white;
+		text-align: center;
+		font-family: Consolas;
+		line-height: 18px;
+		top: 0px;
+		border: 2px solid white;
+		left: 640px;
+		width: 150px;
+		height: 156px;
 	}
 	</style>
 	<script type="text/javascript">
@@ -106,35 +121,39 @@
 			
 			// As a consequence, update positionning of the element, regarding the new mouse coordinates
 			if(DragnDrop.dragObject)
-			{
+			{				
 				DragnDrop.dragObject.style.position = 'absolute';
-				DragnDrop.dragObject.style.top      = DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
 				
-				if((DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX) < 0)
-					DragnDrop.dragObject.style.left = 0;
+				var testX = DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX;
+				if(testX < 0)
+					var positionLeft = 0;
 				else
-					if((DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX) 
-					    > (DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 4))
-						DragnDrop.dragObject.style.left = DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 4;
+					if(testX > (DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 2))
+						var positionLeft = DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 2;
 					else
-						DragnDrop.dragObject.style.left = DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX;
+						var positionLeft = testX;
 						
-				if((DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY) < 0)
-					DragnDrop.dragObject.style.top = 0;
+				var testY = DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
+				if(testY < 0)
+					var positionTop = 0;
 				else
-					if((DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY) 
-					    > (DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 4))
-						DragnDrop.dragObject.style.top = DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 4;
+					if(testY > (DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 2))
+						var positionTop = DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 2;
 					else
-						DragnDrop.dragObject.style.top = DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
+						var positionTop = testY;			
 				
-				// Display those modifications inside the form
-				document.getElementById("moverx").value = DragnDrop.dragObject.style.left;
-				document.getElementById("movery").value = DragnDrop.dragObject.style.top;
+				DragnDrop.dragObject.style.top  = positionTop;
+				DragnDrop.dragObject.style.left = positionLeft;
 				
 				// Also give informations
 				document.getElementById("moveri").value 	= DragnDrop.dragObjectWidth + "x" + DragnDrop.dragObjectHeight;
 				document.getElementById("parenti").value 	= DragnDrop.parentObjectWidth + "x" + DragnDrop.parentObjectHeight;
+				
+				// Updape preview block
+				document.getElementById("preview").style.backgroundPosition = "-" + positionLeft + "px -" + positionTop + "px";
+				document.getElementById("moverx").value = positionLeft;
+				document.getElementById("movery").value = positionTop;
+				
 				return false;
 			}
 		},
@@ -193,9 +212,9 @@ document.onmouseup   = DragnDrop.mouseUp;
 	</script>
 </head>
 
-<body onload="DragnDrop.makeDraggable(document.getElementById('dragme'), document.getElementById('parent'));" style="background-color: lightblue">
+<body onload="DragnDrop.makeDraggable(document.getElementById('dragme'), document.getElementById('parent'));" style="background-color: lightblue;">
 	<div id="parent" style=" position: relative;background: url(http://us.media4.battle.net/cms/blog_header/3ZXX6U8FLRO71297884191605.jpg); width: 622px; height: 240px; border: 2px solid white; padding: 0px;">
-		<div id="dragme" style="position:absolute; top: 0; left: 0; border: 1px solid white; padding: 15px; background-color: lightblue; opacity:0.3; width: 150px; height: 156px; filter:alpha(opacity=30); margin: 0;"> </div>
+		<div id="dragme" style="position:absolute; top: 0; left: 0; border: 1px solid white;background-color: lightblue; opacity:0.3; width: 150px; height: 156px; filter:alpha(opacity=30); margin: 0;"></div>
 	</div>
 	<div>
 		<span class="pos">
@@ -232,11 +251,15 @@ document.onmouseup   = DragnDrop.mouseUp;
 	</div>
 		<div style="clear: both">
 		<span class="pos">
-			<a href="javascript:;" onclick="resizeMover('dragme',150,30)">Make mover 150x130</a>
+			<a href="javascript:;" onclick="resizeMover('dragme',150,130)">Make mover 150x130</a>
 		</span>
 		<span class="pos">
 			<a href="javascript:;" onclick="resizeMover('dragme',150,156)">Make mover 150x156</a>
 		</span>
+	</div>
+	
+	<div id="preview" style="border: 1px solid white; background-image: url(http://us.media4.battle.net/cms/blog_header/3ZXX6U8FLRO71297884191605.jpg)">
+	Preview
 	</div>
 </body>
 </html>
