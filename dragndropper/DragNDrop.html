@@ -1,0 +1,242 @@
+<html>
+<head>
+	<style type="text/css">
+	input[type='text'] {
+		border: 1px solid grey;
+		padding: 2px;
+		color: black;
+		margin: 2px;
+		width: 60px;
+		text-align: right;
+	}
+	
+	.pos
+	{
+		display: block;
+		margin-left: 3px;
+		float: left;
+	}
+	</style>
+	<script type="text/javascript">
+	var DragnDrop = {
+		dragObject: null,
+		parentObject: null,
+		
+		dragObjectWidth: null,
+		dragObjectHeight: null,
+		parentObjectWidth: null,
+		parentObjectHeight: null,
+	
+		positionX: 0,
+		positionY: 0,
+		
+		mouseX: 0,
+		mouseY: 0,
+		
+		mouseOffsetX: 0,
+		mouseOffsetY: 0,
+		
+		parentPositionX: 0,
+		parentPositionY: 0,
+		
+		getMouseOffset: function(target, ev)
+		{
+			ev = ev || window.event;
+
+			DragnDrop.getPosition(target); // Getting the position of the object
+			DragnDrop.mouseCoords(ev); // Getting the coordinates of the mouse
+			// We update the difference between the mouse's position and the block's to be sure we don't have erratic movement.
+			DragnDrop.mouseOffsetX = DragnDrop.mouseX - DragnDrop.positionX;
+			DragnDrop.mouseOffsetY = DragnDrop.mouseY - DragnDrop.positionY;
+		},
+		
+		// Get the position of the element that we are mobing.
+		getPosition: function(e)
+		{
+			var left = 0;
+			var top  = 0;
+
+			while (e.offsetParent)
+			{
+				left += e.offsetLeft;
+				top  += e.offsetTop;
+				e     = e.offsetParent;
+			}
+
+			left += e.offsetLeft;
+			top  += e.offsetTop;
+			
+			// Insert those new values in the object
+			DragnDrop.positionX = left;
+			DragnDrop.positionY = top;
+		},
+		
+		// TODO: Merge with previous method
+		getParentPosition: function(e)
+		{
+			var left = 0;
+			var top  = 0;
+
+			while (e.offsetParent)
+			{
+				left += e.offsetLeft;
+				top  += e.offsetTop;
+				e     = e.offsetParent;
+			}
+
+			left += e.offsetLeft;
+			top  += e.offsetTop;
+			
+			// Insert those new values in the object
+			DragnDrop.parentPositionX = left;
+			DragnDrop.parentPositionY = top;
+			
+			document.getElementById("px").value = left;
+			document.getElementById("py").value = top;
+		},
+		
+		mouseMove: function(ev)
+		{
+			ev = ev || window.event;
+			DragnDrop.mouseCoords(ev); // Update mouse coordinates every time the mouse moves
+			
+			// Display new cursor coordinates
+			document.getElementById("x").value 	= DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX;
+			document.getElementById("y").value 	= DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
+			
+			// As a consequence, update positionning of the element, regarding the new mouse coordinates
+			if(DragnDrop.dragObject)
+			{
+				DragnDrop.dragObject.style.position = 'absolute';
+				DragnDrop.dragObject.style.top      = DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
+				
+				if((DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX) < 0)
+					DragnDrop.dragObject.style.left = 0;
+				else
+					if((DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX) 
+					    > (DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 4))
+						DragnDrop.dragObject.style.left = DragnDrop.parentObjectWidth - DragnDrop.dragObjectWidth - DragnDrop.parentPositionX * 4;
+					else
+						DragnDrop.dragObject.style.left = DragnDrop.mouseX - DragnDrop.mouseOffsetX - DragnDrop.parentPositionX;
+						
+				if((DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY) < 0)
+					DragnDrop.dragObject.style.top = 0;
+				else
+					if((DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY) 
+					    > (DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 4))
+						DragnDrop.dragObject.style.top = DragnDrop.parentObjectHeight - DragnDrop.dragObjectHeight - DragnDrop.parentPositionY * 4;
+					else
+						DragnDrop.dragObject.style.top = DragnDrop.mouseY - DragnDrop.mouseOffsetY - DragnDrop.parentPositionY;
+				
+				// Display those modifications inside the form
+				document.getElementById("moverx").value = DragnDrop.dragObject.style.left;
+				document.getElementById("movery").value = DragnDrop.dragObject.style.top;
+				
+				// Also give informations
+				document.getElementById("moveri").value 	= DragnDrop.dragObjectWidth + "x" + DragnDrop.dragObjectHeight;
+				document.getElementById("parenti").value 	= DragnDrop.parentObjectWidth + "x" + DragnDrop.parentObjectHeight;
+				return false;
+			}
+		},
+		
+		// Release the moving node. Triggered by document.onmouseup
+		mouseUp: function()
+		{
+			DragnDrop.dragObject = null;
+		},
+		
+		makeDraggable: function(item, parent)
+		{
+			// We are hooking a block so that it becomes movable
+			if(!item) return;
+		
+			item.onmousedown = function(ev)
+			{
+				DragnDrop.dragObject  = this;
+				DragnDrop.getMouseOffset(this, ev);
+				DragnDrop.parentObject = parent;
+				DragnDrop.getParentPosition(parent); // Store the parent's position
+				DragnDrop.dragObjectWidth = Number(this.style.width.replace('px',''));
+				DragnDrop.dragObjectHeight = Number(this.style.height.replace('px',''));
+				DragnDrop.parentObjectWidth = Number(parent.style.width.replace('px',''));
+				DragnDrop.parentObjectHeight = Number(parent.style.height.replace('px',''));
+				return false;
+			}
+		},
+		
+		// Update the object's values for the mouse's position. This function is triggered by document.onmousemove
+		mouseCoords: function(ev)
+		{
+			if(ev.pageX || ev.pageY)
+			{
+				DragnDrop.mouseX = ev.pageX;
+				DragnDrop.mouseY = ev.pageY;
+				return;
+			}
+			DragnDrop.mouseX = ev.clientX + DragnDrop.parentObject.scrollLeft - DragnDrop.parentObject.clientLeft;
+			DragnDrop.mouseY = ev.clientY + DragnDrop.parentObject.scrollTop  - DragnDrop.parentObject.clientTop;
+		}
+	};
+	
+function resizeMover(i, w, h)
+{
+	DragnDrop.dragObjectWidth = w;
+	DragnDrop.dragObjectHeight = h;
+	document.getElementById(i).style.width = w;
+	document.getElementById(i).style.height = h;
+	document.getElementById(i).style.left = 0;
+	document.getElementById(i).style.top = 0;
+}
+
+document.onmousemove = DragnDrop.mouseMove;
+document.onmouseup   = DragnDrop.mouseUp;
+	</script>
+</head>
+
+<body onload="DragnDrop.makeDraggable(document.getElementById('dragme'), document.getElementById('parent'));" style="background-color: lightblue">
+	<div id="parent" style=" position: relative;background: url(http://us.media4.battle.net/cms/blog_header/3ZXX6U8FLRO71297884191605.jpg); width: 622px; height: 240px; border: 2px solid white; padding: 0px;">
+		<div id="dragme" style="position:absolute; top: 0; left: 0; border: 1px solid white; padding: 15px; background-color: lightblue; opacity:0.3; width: 150px; height: 156px; filter:alpha(opacity=30); margin: 0;"> </div>
+	</div>
+	<div>
+		<span class="pos">
+			Cursor X : <input type="text" id="x" value="0" disabled="disabled" />
+		</span>
+		<span class="pos">
+			Cursor Y : <input type="text" id="y" value="0" disabled="disabled" />
+		</span>
+	</div>
+	<br />
+	<div style="clear:both">
+		<span class="pos">
+			Parent position X : <input type="text" id="px" value="" disabled="disabled" />
+		</span>
+		<span class="pos">
+			Parent position Y : <input type="text" id="py" value="" disabled="disabled" />
+		</span>
+	</div><br />
+	<div style="clear: both">
+		<span class="pos">
+			Mover's dimensions : <input type="text" id="moveri" value="0" disabled="disabled" />
+		</span>
+		<span class="pos">
+			Parent's dimensions : <input type="text" id="parenti" value="0" disabled="disabled" />
+		</span>
+	</div>
+	<div style="clear: both">
+		<span class="pos">
+			Mover's X : <input type="text" id="moverx" value="0" disabled="disabled" />
+		</span>
+		<span class="pos">
+			Mover's Y : <input type="text" id="movery" value="0" disabled="disabled" />
+		</span>
+	</div>
+		<div style="clear: both">
+		<span class="pos">
+			<a href="javascript:;" onclick="resizeMover('dragme',150,30)">Make mover 150x130</a>
+		</span>
+		<span class="pos">
+			<a href="javascript:;" onclick="resizeMover('dragme',150,156)">Make mover 150x156</a>
+		</span>
+	</div>
+</body>
+</html>
