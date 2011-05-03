@@ -15,8 +15,8 @@
 	</script>
 	<style type="text/css">
 	fieldset { border: 1px solid black; padding: 5px; margin-bottom: 20px; }
-	legend { border-bottom: 1px solid black; font-size: 13px; }
-	.method { font-family: monospace; font-size: 17px; padding-left: 5px; padding-right: 5px; }
+	legend { border-bottom: 1px solid black; font-size: 14px; }
+	.method { font-family: Consolas; font-size: 11px; padding-left: 5px; padding-right: 5px; }
 	fieldset * { margin-top: 15px; }
 	</style>
 </head>
@@ -29,8 +29,8 @@
 	</fieldset>
 	
 	<fieldset>
-		<legend>Demonstration of <span class="method">xLib.getNodesMatchingXPath()</span> conjoncted with .nodes() methods</legend>
-		<input type="button" onclick="alert(xLib.getNodesMatchingXPath('//fieldset').nodes(1).innerHTML);" value="Get the second <fieldset> tag's HTML content !" />
+		<legend>Demonstration of <span class="method">xLib.evaluate()</span> conjoncted with .nodes() methods</legend>
+		<input type="button" onclick="alert(xLib.evaluate('//fieldset').nodes(1).innerHTML);" value="Get the second <fieldset> tag's HTML content !" />
 	</fieldset>
 	
 	<fieldset>
@@ -59,8 +59,16 @@
 	<fieldset>
 		<legend>Check the XPath of buttons</legend>
 		<input type="text" id="checker" value="Enter XPath expression here" />
-		<input type="button" value="Alter the chosen button" onclick="xLib.getNodesMatchingXPath(document.getElementById('checker').value).nodes(0).value='This node has been altered !'" />
+		<input type="button" value="Alter the chosen button" onclick="xLib.evaluate(document.getElementById('checker').value).nodes(0).value='This node has been altered !'" />
 	</fieldset>
+    
+    <fieldset>
+        <legend>Attributing values to a node</legend>
+        This code uses the <span class="method">xLib.evaluate(..).nodes(..).attribute()</span> method.That one has two usages :<br />
+        - attribute(a, b) : Sets attribute a of the selected node to value b.<br />
+        - attribute(a) : Return the value of thisattribute for the selected node.<br />
+        <input type="checkbox" /> Click that button to check that box ! <input type="submit" value="Click me !" onclick="xLib.evaluate('//input[@type=\'checkbox\']').nodes(0).attribute('checked', 'checked');" />
+    </fieldset>
 	<h6>© ® Cron AKA Kapoeira & Pheonix35</h6>
 </body>
 
