@@ -1,6 +1,6 @@
 /* xLib        Make JavaScript Simplier 
  * Authors: Phoenix35 & Cron (Kapoeira)
- * Version: 0.5.1
+ * Version: 0.5.2
  * All methods will return null under Microsoft's navigator, except handleError and handleAlert
  */
 
