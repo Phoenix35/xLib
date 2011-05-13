@@ -19,7 +19,7 @@ xLib is a Javascript library which makes XPath a lot easier.
 
 
 HOW-TO:
-     var a = new xLib().evaluate(STRING xpathExpression [, XPathResult.CONSTANT or NUMBER resultType [, FUNCTION namespaceResolver]]);  // Returns the XPath Object matching xpathExpression of the type resultType (ANY_TYPE by default)
+     var a = xLib.evaluate(STRING xpathExpression [, XPathResult.CONSTANT or NUMBER resultType [, FUNCTION namespaceResolver]]);  // Returns the XPath Object matching xpathExpression of the type resultType (ANY_TYPE by default)
      a.value = numberValue, stringValue or booleanValue (depends on resultType)
      a.node = a.singleNodeValue
      a.nodes(n) = function returning the n'th node of the XPath Object (equivalent of snapshotItem(n) or iterateNext() 'n' times)
