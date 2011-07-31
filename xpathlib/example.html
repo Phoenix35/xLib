@@ -53,7 +53,7 @@
 		<input type="button" id="example-2" class="hello" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and one class)" />
 		<input type="button" id="example-3" class="hello world" onclick="alert(xLib.generateXPathForDomElement(this, 0, 99, null, document, kwds));" value="Get my XPath (I have one ID and two classes)" />
 		<br />
-		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('span'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('onclick',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
+		<input type="button" value="Alter the page and get the XPath of the created button" onclick="var newdiv=document.createElement('span'); var aTextBox=document.createElement('input'); aTextBox.type = 'button'; aTextBox.value = 'I\'m dynamically added.'; newdiv.appendChild(aTextBox); this.parentNode.appendChild(newdiv); aTextBox.addEventListener('click',alert(xLib.generateXPathForDomElement(aTextBox, 0, 99, null, document, kwds)), false);"> (Ye, it supports dynamic page modifications. To check it, try the next <span class="method">fieldset</span>)
 	</fieldset>
 	
 	<fieldset>
